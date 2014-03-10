@@ -4,10 +4,12 @@ Created on 8 mars 2014
 @author: xavier
 '''
 
-from PyQt4 import QtGui
+from PyQt4 import QtGui, QtCore
+
 from Poeme import *
 from PyQt4.phonon import Phonon 
 from LecteurRecherchePoeme import *
+from LecteurConfig import LecteurConfig
 
 class LecteurUser(QtGui.QMainWindow):
     '''
@@ -18,6 +20,7 @@ class LecteurUser(QtGui.QMainWindow):
         super(QtGui.QMainWindow,self).__init__()
         self.playlist = Playlist()
         self.setupUi()
+        
         
         
     def setupUi(self):
@@ -67,6 +70,7 @@ class LecteurUser(QtGui.QMainWindow):
         mainLayout.addLayout(playbackLayout)
         
         widget = QtGui.QWidget()
+
         widget.setLayout(mainLayout)
 
         self.setCentralWidget(widget)
@@ -91,16 +95,23 @@ class LecteurUser(QtGui.QMainWindow):
 class LecteurAdm(LecteurUser):
     def __init__(self):
         super().__init__()
+        self.setupUiAdm()
+        
+    def ouvrirConfig(self):
+        self.config = LecteurConfig()
+        self.config.show()
+        
         
     def setupUiAdm(self):
         '''
         Définition de l'interface admin
         '''
+        buttonConfig = QtGui.QPushButton('Configuration')
+        self.connect(buttonConfig, QtCore.SIGNAL("clicked()"),self.ouvrirConfig)
+        self.centralWidget().layout().addWidget(buttonConfig)
         
-    def setupActionAdm(self):
-        '''
-        Définition des actions Administrateur
-        '''
+    
+        
         
         
         

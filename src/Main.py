@@ -1,10 +1,11 @@
 '''
 Created on 10 mars 2014
-
+QtCore.Qt.AlignVCenter
 @author: xavier
 '''
 
 from Lecteur import *
+from LecteurConfig import LecteurConfig
 from os import sys
 
 if __name__ == '__main__':

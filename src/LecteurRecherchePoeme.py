@@ -14,8 +14,8 @@ class LecteurRecherchePoeme(QtGui.QWidget):
         self.playlistRecherche = []
         
     def setupUi(self):
-        searchLabel = QtGui.QLabel("Rechercher : ")
         searchLine = QtGui.QLineEdit()
+        searchLine.setText("Rechercher")
         searchButton = QtGui.QPushButton("Go")
         
         searchList = ("Titre","Auteur", "Thème", "Siècle", "Genre", 
@@ -24,7 +24,6 @@ class LecteurRecherchePoeme(QtGui.QWidget):
         searchBox.addItems(searchList)
         
         searchLayout = QtGui.QHBoxLayout()
-        searchLayout.addWidget(searchLabel)
         searchLayout.addWidget(searchLine)
         searchLayout.addWidget(searchBox)
         searchLayout.addWidget(searchButton)
