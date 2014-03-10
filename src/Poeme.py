@@ -18,7 +18,15 @@ class Poeme:
         self.cheminPoeme = cheminPoeme
         self.listeThemes = listeThemes
     
-                
+class Auteur:
+    def __init__(self, nom, prenom):
+        self.nomAuteur = nom
+        self.prenomAuteur = prenom
+
+class Theme:
+    def __init__(self, libelle):
+        self.libelleTheme = libelle
+        
 class Playlist:
     def __init__(self):
         self.listePoeme = []
