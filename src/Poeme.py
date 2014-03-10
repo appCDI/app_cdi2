@@ -7,12 +7,16 @@ from PyQt4.phonon import Phonon
 
 class Poeme:
 
-    def __init__(self, media, nom, nomPoeme, genrePoeme, langue):
+    def __init__(self, media, nom, nomPoeme, siecle, eleve, formePoeme, langue, cheminPoeme, listeThemes):
         self.mediaPoeme = media
         self.nomArtiste = nom
         self.nomPoeme = nomPoeme
-        self.genrePoeme = genrePoeme
+        self.siecle = siecle
+        self.nomEleve = eleve
+        self.formePoeme = formePoeme
         self.langue = langue
+        self.cheminPoeme = cheminPoeme
+        self.listeThemes = listeThemes
     
                 
 class Playlist:
