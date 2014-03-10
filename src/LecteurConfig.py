@@ -71,6 +71,19 @@ class Formulaire(QtGui.QDialog):
         '''
         Interface
         '''
+        labelTitre= QtGui.QLabel("Nom du Poeme")
+        editTitre = QtGui.QLineEdit()
+        labelAuteur = QtGui.QLabel("Auteur")
+        editAuteur = QtGui.QlineEdit()
+        
+        mainLayout = QtGui.QFormLayout()
+        mainLayout.addWidget(labelTitre)
+        mainLayout.addWidget(editTitre)
+        mainLayout.addWidget(labelAuteur)
+        mainLayout.addWidget(editAuteur)
+        
+        self.setLayout(mainLayout)
+        
         
 class FormlaireAjout(Formulaire):
     def __init__(self):
