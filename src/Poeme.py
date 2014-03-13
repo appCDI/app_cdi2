@@ -7,7 +7,8 @@ from PyQt4.phonon import Phonon
 
 class Poeme:
 
-    def __init__(self, media, nom, nomPoeme, siecle, eleve, formePoeme, langue, cheminPoeme, listeThemes):
+    def __init__(self, id, media, nom, nomPoeme, siecle, eleve, formePoeme, langue, listeThemes):
+        self.idPoeme = id
         self.mediaPoeme = media
         self.nomArtiste = nom
         self.nomPoeme = nomPoeme
@@ -15,18 +16,13 @@ class Poeme:
         self.nomEleve = eleve
         self.formePoeme = formePoeme
         self.langue = langue
-        self.cheminPoeme = cheminPoeme
         self.listeThemes = listeThemes
     
 class Auteur:
     def __init__(self, nom, prenom):
         self.nomAuteur = nom
         self.prenomAuteur = prenom
-
-class Theme:
-    def __init__(self, libelle):
-        self.libelleTheme = libelle
-        
+     
 class Playlist:
     def __init__(self):
         self.listePoeme = []
