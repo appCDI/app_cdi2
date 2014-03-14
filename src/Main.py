@@ -10,7 +10,7 @@ from os import sys
 
 if __name__ == '__main__':
     '''
-    Parti qui s'occupe du lancement de toute l'application
+    Partie qui s'occupe du lancement de toute l'application
     '''
     if (len(sys.argv))>1:
         if(sys.argv[1] == "adm"):

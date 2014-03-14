@@ -1,28 +1,27 @@
 from Poeme import *
 from GestionPoeme import GestionPoemeBase
 
-media = ""
-titre = "Titre du poeme"
-auteurNom = "Baudelaire"
-auteurPrenom = "Charles"
+media = "media"
+titre = "Y en a marre des riches"
+auteurNom = "Le riche"
+auteurPrenom = "Didier"
 auteur = Auteur(auteurNom, auteurPrenom)
 
-eleve = "MONTIEL"
+eleveNom = "Merde"
+elevePrenom = "Jetan"
+eleveClasse = "chose"
+eleve = Eleve(eleveNom, elevePrenom, eleveClasse)
+
 chemin = "home/alexandre/poemeSample.mp3"
-forme = "sonnet"
-siecle = "18"
-langue = "francais"
-themes = ['biere', 'bédo']
+forme = "truc drole"
+siecle = "22"
+langue = "patois"
+themes = ["les riches", "l argent", "les putes"]
 
-GestionPoemeBase.addAuthor(auteur)
+testPoeme = Poeme(media, titre, siecle, forme, langue, themes)
+boum = GestionPoemeBase()
+#boum.addPoeme(testPoeme, auteur, eleve)
 
-for theme in themes:
-    GestionPoemeBase.addTheme(theme)
+#boum.DeletePoeme(testPoeme, auteur)
 
-testPoeme = Poeme(media, auteur, titre, siecle, eleve, forme, langue, chemin, themes)
-
-GestionPoemeBase.addPoeme(testPoeme)
-
-for poeme in Poeme:
-    print(poeme.eleve)
-    
+boum.UpdatePoeme(testPoeme, auteur, eleve)
