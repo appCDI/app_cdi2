@@ -1,27 +1,37 @@
 from Poeme import *
 from GestionPoeme import GestionPoemeBase
 
+
+
 media = "media"
-titre = "Y en a marre des riches"
+titre = "Je vais te violer dans ta bouche mmmmvoyez"
 auteurNom = "Le riche"
 auteurPrenom = "Didier"
 auteur = Auteur(auteurNom, auteurPrenom)
 
-eleveNom = "Merde"
-elevePrenom = "Jetan"
-eleveClasse = "chose"
+eleveNom = "MONTIEL"
+elevePrenom = "Alexandre"
+eleveClasse = "BTS SIO 2"
 eleve = Eleve(eleveNom, elevePrenom, eleveClasse)
 
 chemin = "home/alexandre/poemeSample.mp3"
-forme = "truc drole"
+forme = "chanson"
 siecle = "22"
 langue = "patois"
-themes = ["les riches", "l argent", "les putes"]
+themes = ["le cul"]
 
-testPoeme = Poeme(media, titre, siecle, forme, langue, themes)
+
 boum = GestionPoemeBase()
-#boum.addPoeme(testPoeme, auteur, eleve)
+
+idPoeme = boum.getIdPoemeMax()
+idPoeme = 7
+
+testPoeme = Poeme(idPoeme, media, titre, auteur, siecle, eleve, forme, langue, themes)
+
+#boum.addPoeme(testPoeme)
 
 #boum.DeletePoeme(testPoeme, auteur)
 
-boum.UpdatePoeme(testPoeme, auteur, eleve)
+laPlaylist = boum.RemplirPlaylist()
+
+#boum.UpdatePoeme(testPoeme, auteur, eleve)

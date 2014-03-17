@@ -105,17 +105,25 @@ class GestionPoemeBase(object):
             message = "L'élève "+nom+" "+prenom+" en classe de "+classe+" a bien été ajouté."
         else:
             message = "Cet élève a déjà été ajouté."     
-            
-    def addPoeme( self, poeme, auteur, eleve):
+    
+    def getIdPoemeMax(self):
+        requete = "SELECT MAX(id_poeme) FROM poeme;"
+        cursor.execute(requete)
+        result = list(cursor)
+        for i in result:
+            idMaxPoeme = i[0] + 1
+        return idMaxPoeme
+         
+    def addPoeme( self, poeme):
         
-        nomAuteur = auteur.nomAuteur
-        prenomAuteur = auteur.prenomAuteur
+        nomAuteur = poeme.auteur.nomAuteur
+        prenomAuteur = poeme.auteur.prenomAuteur
         
-        nomEleve = eleve.nomEleve
-        prenomEleve = eleve.prenomEleve
-        classeEleve = eleve.classeEleve
+        nomEleve = poeme.eleve.nomEleve
+        prenomEleve = poeme.eleve.prenomEleve
+        classeEleve = poeme.eleve.classeEleve
         
-        requeteID = "SELECT MAX(id_poeme) FROM poeme"
+        #requeteID = "SELECT MAX(id_poeme) FROM poeme"
         requeteNomAuteur = "SELECT id_auteur FROM auteur WHERE nom_auteur = '"+nomAuteur+"' AND prenom_auteur = '"+prenomAuteur+"';"
         requeteSiecle = "SELECT id_siecle FROM siecles WHERE siecle = "+poeme.siecle+";"
         requeteLangue = "SELECT id_langue FROM langues WHERE langue = '"+poeme.langue+"';"
@@ -206,22 +214,22 @@ class GestionPoemeBase(object):
         titrePoeme = titrePoeme.capitalize()
         mediaPoeme = poeme.mediaPoeme
         
-        requeteVerifPoeme = "SELECT id_poeme FROM poeme WHERE titre_poeme = '"+titrePoeme+"' AND id_auteur = "+str(idAuteur)+";"
+        requeteVerifPoeme = "SELECT id_poeme FROM poeme WHERE id_poeme = '"+str(poeme.idPoeme)+"' AND id_auteur = "+str(idAuteur)+";"
         cursor.execute(requeteVerifPoeme)
         result = list(cursor)
-        for i in result:
-            idPoeme = i[0]
+#         for i in result:
+#             idPoeme = i[0]
         if(result == []):
             
-            cursor.execute(requeteID)
-            result = list(cursor)       
-            if(result == [(None,)]):
-                    idPoemeACreer = 1
-            else:
-                for i in result:
-                    idPoemeACreer = i[0] + 1
+#             cursor.execute(requeteID)
+#             result = list(cursor)       
+#             if(result == [(None,)]):
+#                     idPoemeACreer = 1
+#             else:
+#                 for i in result:
+#                     idPoemeACreer = i[0] + 1
                   
-            requeteAjout = "INSERT INTO poeme VALUES ("+str(idPoemeACreer)+", '"+titrePoeme+"', '"+mediaPoeme+"', "+str(idAuteur)+", "+str(idSiecle)+", "+str(idLangue)+", "+str(idForme)+", "+str(idEleve)+");"
+            requeteAjout = "INSERT INTO poeme VALUES ("+str(poeme.idPoeme)+", '"+titrePoeme+"', '"+mediaPoeme+"', "+str(idAuteur)+", "+str(idSiecle)+", "+str(idLangue)+", "+str(idForme)+", "+str(idEleve)+");"
             cursor.execute(requeteAjout)
             conn.commit()
         else:
@@ -234,7 +242,7 @@ class GestionPoemeBase(object):
             if(result != []):
                 for i in result:
                     idTheme = i[0]
-                requeteAjoutTheme = "INSERT INTO rel_poeme_theme VALUES ("+str(idPoemeACreer)+", "+str(idTheme)+");"
+                requeteAjoutTheme = "INSERT INTO rel_poeme_theme VALUES ("+str(poeme.idPoeme)+", "+str(idTheme)+");"
                 cursor.execute(requeteAjoutTheme)
                 conn.commit()
             else:
@@ -246,13 +254,13 @@ class GestionPoemeBase(object):
                 requeteAjoutTheme = "INSERT INTO themes VALUES("+str(idTheme)+", '"+theme+"');"
                 cursor.execute(requeteAjoutTheme)
                 conn.commit()
-                requeteAjoutThemePoeme = "INSERT INTO rel_poeme_theme VALUES ("+str(idPoemeACreer)+", "+str(idTheme)+");"
+                requeteAjoutThemePoeme = "INSERT INTO rel_poeme_theme VALUES ("+str(poeme.idPoeme)+", "+str(idTheme)+");"
                 cursor.execute(requeteAjoutThemePoeme)
                 conn.commit()
                 
-    def DeletePoeme(self, poeme, auteur):
+    def DeletePoeme(self, poeme):
         
-        requetePoeme = "SELECT id_poeme FROM poeme INNER JOIN auteur ON poeme.id_auteur = auteur.id_auteur WHERE titre_poeme = '"+poeme.nomPoeme+"' AND nom_auteur = '"+auteur.nomAuteur+"';"
+        requetePoeme = "SELECT id_poeme FROM poeme INNER JOIN auteur ON poeme.id_auteur = auteur.id_auteur WHERE titre_poeme = '"+poeme.nomPoeme+"' AND nom_auteur = '"+poeme.auteur.nomAuteur+"';"
         cursor.execute(requetePoeme)
         result = list(cursor)
         for i in result:
@@ -267,14 +275,14 @@ class GestionPoemeBase(object):
         
         message = "Le poème a bien été supprimé"
         
-    def UpdatePoeme(self, poeme, auteur, eleve):
+    def UpdatePoeme(self, poeme):
         
-        requetePoeme = "SELECT id_poeme FROM poeme INNER JOIN auteur ON poeme.id_auteur = auteur.id_auteur WHERE titre_poeme = '"+poeme.nomPoeme+"' AND nom_auteur = '"+auteur.nomAuteur+"';"
-        cursor.execute(requetePoeme)
-        result = list(cursor)
-        for i in result:
-            idPoemeAModifier = i[0]
-        
+#         requetePoeme = "SELECT id_poeme FROM poeme INNER JOIN auteur ON poeme.id_auteur = auteur.id_auteur WHERE titre_poeme = '"+poeme.nomPoeme+"' AND nom_auteur = '"+auteur.nomAuteur+"';"
+#         cursor.execute(requetePoeme)
+#         result = list(cursor)
+#         for i in result:
+#             idPoemeAModifier = i[0]
+#         
         requeteSiecle = "SELECT id_siecle FROM siecles WHERE siecle = "+poeme.siecle+";"
         cursor.execute(requeteSiecle)
         result = list(cursor)
@@ -286,7 +294,7 @@ class GestionPoemeBase(object):
                 idSiecle = i[0] + 1
             requeteAjoutSiecle = "INSERT INTO siecle VALUES ("+str(idSiecle)+", '"+poeme.siecle+"');"
             cursor.execute(requeteAjoutSiecle)
-            conn.commit
+            conn.commit()
         else:
             for i in result:
                 idSiecle = i[0]
@@ -302,7 +310,7 @@ class GestionPoemeBase(object):
                 idLangue = i[0] + 1
             requeteAjoutLangue = "INSERT INTO langues VALUES ("+str(idLangue)+", '"+poeme.langue+"');"
             cursor.execute(requeteAjoutLangue)
-            conn.commit
+            conn.commit()
         else:
             for i in result:
                 idLangue = i[0]   
@@ -323,22 +331,54 @@ class GestionPoemeBase(object):
             for i in result:
                 idForme = i[0]
             
-        requeteAuteur = "SELECT id_auteur FROM auteur WHERE nom_auteur = '"+auteur.nomAuteur+"' AND prenom_auteur = '"+auteur.prenomAuteur+"';"
+        requeteAuteur = "SELECT id_auteur FROM auteur WHERE nom_auteur = '"+poeme.auteur.nomAuteur+"' AND prenom_auteur = '"+poeme.auteur.prenomAuteur+"';"
         cursor.execute(requeteAuteur)
         result = list(cursor)
         for i in result:
             idAuteur = i[0]
             
-        requeteEleve = "SELECT id_eleve FROM eleve WHERE nom_eleve = '"+eleve.nomEleve+"' AND prenom_eleve = '"+eleve.prenomEleve+"' AND classe_eleve = '"+eleve.classeEleve+"' ;"
+        requeteEleve = "SELECT id_eleve FROM eleve WHERE nom_eleve = '"+poeme.eleve.nomEleve+"' AND prenom_eleve = '"+poeme.eleve.prenomEleve+"' AND classe_eleve = '"+poeme.eleve.classeEleve+"' ;"
         cursor.execute(requeteEleve)
         result = list(cursor)
         for i in result:
             idEleve = i[0]
         
-        requete = "UPDATE poeme SET titre_poeme = '"+poeme.nomPoeme+"', chemin_poeme = '"+poeme.mediaPoeme+"', id_auteur = "+str(idAuteur)+", id_siecle = "+str(idSiecle)+", id_langue = "+str(idLangue)+", id_forme = "+str(idForme)+", id_eleve = "+str(idEleve)+" WHERE idPoeme = "+str(idPoemeAModifier)+";"
+        requete = "UPDATE poeme SET titre_poeme = '"+poeme.nomPoeme+"', chemin_poeme = '"+poeme.mediaPoeme+"', id_auteur = "+str(idAuteur)+", id_siecle = "+str(idSiecle)+", id_langue = "+str(idLangue)+", id_forme = "+str(idForme)+", id_eleve = "+str(idEleve)+" WHERE id_poeme = "+str(poeme.idPoeme)+";"
         cursor.execute(requete)
         conn.commit()
-                               
+        
+    def RemplirPlaylist(self):
+        listPoemes = []
+        requete = "SELECT * FROM poeme INNER JOIN auteur ON poeme.id_auteur = poeme.id_auteur INNER JOIN eleve ON eleve.id_eleve = poeme.id_eleve WHERE auteur.id_auteur = poeme.id_auteur;"
+        cursor.execute(requete)
+        listResult = list(cursor)
+        for lignePoeme in listResult:
+            requeteTheme = "SELECT themes.id_theme, themes.libelle_theme FROM themes INNER JOIN rel_poeme_theme ON rel_poeme_theme.id_theme = themes.id_theme WHERE rel_poeme_theme.id_poeme = "+str(lignePoeme[0])+";"
+            cursor.execute(requeteTheme)
+            listeThemePoeme = list(cursor)
+            listThemes =[]
+            for i in listeThemePoeme:
+                theme = i[1]
+                
+                listThemes.append(theme)
+            
+            objEleve = Eleve(lignePoeme[12], lignePoeme[13], lignePoeme[14])
+            objAuteur = Auteur(lignePoeme[9], lignePoeme[10])
+            objPoeme = Poeme(lignePoeme[0], lignePoeme[2], lignePoeme[1], objAuteur, lignePoeme[4], objEleve ,lignePoeme[6], lignePoeme[5], listThemes)
+#             requeteAuteur = "SELECT * FROM auteur INNER JOIN poeme ON poeme.id_auteur = auteur.id_auteur WHERE poeme.id_poeme = "+lignePoeme[0]+";"
+#             cursor.execute(requeteAuteur)
+#             resultAuteur = list(cursor)
+#             for i in resultAuteur:
+#                 nom = i[1]
+#                 prenom = i[2]
+#   
+#             objAuteur = Auteur(nom, prenom)
+            
+            listPoemes.append(objPoeme)
+            
+        laPlaylist = Playlist(listPoemes, 0)
+        return laPlaylist
+        
 class GestionPoemeFichier:
     def __init__(self):
         '''
