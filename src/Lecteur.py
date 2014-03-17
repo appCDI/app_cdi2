@@ -45,9 +45,9 @@ class LecteurUser(QtGui.QMainWindow):
         volumeLabel = QtGui.QLabel()
         volumeLabel.setPixmap(QtGui.QPixmap('images/volume.png'))
         
-        headers = ("Id","Titre","Auteur", "Thème", "Siècle", "Genre", 
+        headers = ("Titre","Auteur", "Thème", "Siècle", "Genre", 
                    "Langue","Elève")
-        self.poemeTab = QtGui.QTableWidget(0,8)
+        self.poemeTab = QtGui.QTableWidget(0,7)
         self.poemeTab.setHorizontalHeaderLabels(headers)
         self.poemeTab.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
         self.poemeTab.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
